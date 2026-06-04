@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>HowScad Shop — Номера и Звёзды Telegram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle at 20% 30%, #0a0f1e, #05080f);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            backdrop-filter: blur(2px);
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1 {
+            font-size: 36px;
+            background: linear-gradient(135deg, #ffffff, #26A5E4, #8a2be2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .telegram-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0 10px;
+            align-items: center;
+        }
+
+        .telegram-input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 16px;
+            width: 240px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .telegram-input:focus {
+            border-color: #26A5E4;
+            box-shadow: 0 0 15px rgba(38,165,228,0.3);
+        }
+
+        .login-hint {
+            font-size: 13px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            background: rgba(255,255,255,0.03);
+            padding: 8px;
+            border-radius: 70px;
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 28px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.25s;
+            background: transparent;
+            color: #ccc;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #26A5E4, #1e6f9e);
+            color: white;
+            box-shadow: 0 6px 14px rgba(38,165,228,0.3);
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background: rgba(20, 25, 40, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 22px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255,255,255,0.08);
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(38,165,228,0.4);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+            background: rgba(30, 35, 55, 0.7);
+        }
+
+        .product-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .product-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .product-price {
+            font-size: 28px;
+            font-weight: 800;
+            color: #26A5E4;
+            margin-bottom: 18px;
+        }
+
+        .product-price small {
+            font-size: 14px;
+            font-weight: normal;
+            color: #aaa;
+        }
+
+        .product-warning {
+            font-size: 12px;
+            color: #ff8c8c;
+            margin-bottom: 15px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #26A5E4, #1e8bc3);
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 16px;
+        }
+
+        .buy-btn:hover {
+            background: linear-gradient(90deg, #3cb9f0, #257ea8);
+            transform: scale(0.98);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #121826;
+            border-radius: 40px;
+            max-width: 460px;
+            width: 90%;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 40px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .order-summary {
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .order-summary p {
+            margin: 10px 0;
+        }
+
+        .payment-block {
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            padding: 16px;
+            margin: 20px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .payment-block:active {
+            background: rgba(38,165,228,0.2);
+        }
+
+        .payment-block p {
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .btn-pay {
+            background: linear-gradient(90deg, #26A5E4, #1e8bc3);
+            color: white;
+        }
+
+        .close-icon {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 35px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #26A5E4;
+            padding: 14px 24px;
+            border-radius: 60px;
+            color: white;
+            transform: translateX(400px);
+            transition: transform 0.25s;
+            z-index: 1100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: #ff4757;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 8px; }
+            .product-title { font-size: 18px; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">📱⭐</div>
+        <h1>HowScad Shop</h1>
+        <div class="subtitle">Мгновенная выдача • Поддержка 24/7 • Честные цены</div>
+        <div class="telegram-row">
+            <input type="text" id="tgUsername" class="telegram-input" placeholder="@username или ID" autocomplete="off">
+            <span style="color:#aaa;">или</span>
+            <div id="telegram-widget"></div>
+        </div>
+        <div class="login-hint">✏️ Укажите ваш Telegram, чтобы мы могли отправить товар</div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="numbers">📱 Номера Telegram</div>
+        <div class="tab" data-tab="stars">⭐ Telegram Stars</div>
+        <div class="tab" data-tab="info">ℹ️ Инструкция</div>
+    </div>
+
+    <div id="numbers-tab" class="tab-content">
+        <div class="products-grid" id="numbersGrid"></div>
+    </div>
+    <div id="stars-tab" class="tab-content" style="display: none;">
+        <div class="products-grid" id="starsGrid"></div>
+    </div>
+    <div id="info-tab" class="tab-content" style="display: none;">
+        <div class="products-grid">
+            <div class="product-card" style="cursor: default;">
+                <div class="product-icon">📖</div>
+                <div class="product-title">Как купить?</div>
+                <div style="margin: 15px 0; line-height: 1.5;">
+                    <p>1️⃣ Выберите товар → нажмите «Купить»</p>
+                    <p>2️⃣ Оплатите по реквизитам:</p>
+                    <div class="payment-block" style="background:#0a0e16;" onclick="copyPhone()">
+                        <p>📱 СБП: <strong>+79027365759</strong></p>
+                        <p>👤 Получатель: <strong>Егор</strong></p>
+                        <p style="font-size:12px; margin-top:5px;">👇 Нажмите, чтобы скопировать</p>
+                    </div>
+                    <p>3️⃣ Нажмите «Оплатил» → откроется бот</p>
+                    <p>4️⃣ Отправьте скриншот чека в бот</p>
+                    <p>5️⃣ Получите товар моментально!</p>
+                </div>
+            </div>
+            <div class="product-card" style="cursor: default;">
+                <div class="product-icon">❓</div>
+                <div class="product-title">Часто спрашивают</div>
+                <div style="margin: 15px 0;">
+                    <p>🔹 Среднее время выдачи: 2–5 минут</p>
+                    <p>🔹 Гарантия 24 часа на аккаунты</p>
+                    <p>🔹 Возврат при неполучении кода</p>
+                    <p>🔹 Поддержка <strong>@HowScad_support</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © HowScad Shop — надёжный магазин аккаунтов и звёзд Telegram<br>
+        Оплата через СБП (без комиссии)
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="orderModal" class="modal">
+    <div class="modal-card">
+        <span class="close-icon" onclick="closeModal()">✕</span>
+        <div class="modal-header">🛒 Оформление заказа</div>
+        <div id="modalOrderContent" class="order-summary"></div>
+        <div class="payment-block" onclick="copyPhone()">
+            <p>📱 СБП: <strong>+79027365759</strong></p>
+            <p>👤 Получатель: <strong>Егор</strong></p>
+            <p style="font-size:12px;">➡️ Нажмите, чтобы скопировать номер</p>
+        </div>
+        <div class="modal-buttons">
+            <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+            <button class="btn-pay" id="confirmOrderBtn">✅ Оплатил</button>
+        </div>
+    </div>
+</div>
+
+<div id="toastMessage" class="toast"></div>
+
+<script>
+    const countries = [
+        { code: "us", name: "🇺🇸 США (+1)", price: 80, warning: "" },
+        { code: "ca", name: "🇨🇦 Канада (+1)", price: 65, warning: "" },
+        { code: "ru", name: "🇷🇺 Россия (новорег)", price: 140, warning: "" },
+        { code: "bd", name: "🇧🇩 Бангладеш (+880)", price: 90, warning: "" },
+        { code: "ph", name: "🇵🇭 Филиппины", price: 65, warning: "" },
+        { code: "ng", name: "🇳🇬 Нигерия", price: 60, warning: "" },
+        { code: "iq", name: "🇮🇶 Ирак", price: 60, warning: "" },
+        { code: "af", name: "🌍 Африка", price: 60, warning: "" },
+        { code: "in", name: "🇮🇳 Индия", price: 50, warning: "⚠️ Высокий шанс слёта" }
+    ];
+
+    const stars = [
+        { value: 50, price: 70 },
+        { value: 100, price: 140 },
+        { value: 250, price: 350 },
+        { value: 400, price: 550 },
+        { value: 500, price: 670 },
+        { value: 750, price: 1000 },
+        { value: 1000, price: 1400 }
+    ];
+
+    let currentOrder = null;
+
+    function renderNumbers() {
+        const grid = document.getElementById('numbersGrid');
+        if (!grid) return;
+        grid.innerHTML = countries.map(c => `
+            <div class="product-card" onclick="openOrderModal('number', '${c.name}', ${c.price}, '${c.code}', '${c.warning}')">
+                <div class="product-icon">📱</div>
+                <div class="product-title">${c.name}</div>
+                <div class="product-price">${c.price}<small> ₽</small></div>
+                ${c.warning ? `<div class="product-warning">${c.warning}</div>` : ''}
+                <button class="buy-btn">Купить</button>
+            </div>
+        `).join('');
+    }
+
+    function renderStars() {
+        const grid = document.getElementById('starsGrid');
+        if (!grid) return;
+        grid.innerHTML = stars.map(s => `
+            <div class="product-card" onclick="openOrderModal('stars', '⭐ ${s.value} Stars', ${s.price}, '${s.value}', '')">
+                <div class="product-icon">⭐</div>
+                <div class="product-title">${s.value} Telegram Stars</div>
+                <div class="product-price">${s.price}<small> ₽</small></div>
+                <button class="buy-btn">Купить</button>
+            </div>
+        `).join('');
+    }
+
+    function getTelegramIdentifier() {
+        let username = document.getElementById('tgUsername').value.trim();
+        if (username && !username.startsWith('@')) username = '@' + username;
+        if (username) return username;
+        if (window.tgUserData && window.tgUserData.username) {
+            return '@' + window.tgUserData.username;
+        }
+        return null;
+    }
+
+    function openOrderModal(type, name, price, details, warning) {
+        const tgUser = getTelegramIdentifier();
+        if (!tgUser) {
+            showToast('❌ Укажите ваш Telegram username в поле выше!', true);
+            return;
+        }
+        currentOrder = { type, name, price, details, warning };
+        const modalContent = document.getElementById('modalOrderContent');
+        modalContent.innerHTML = `
+            <p>📦 <strong>${name}</strong></p>
+            <p>💰 Сумма: <strong>${price} ₽</strong></p>
+            <p>👤 Telegram: <strong>${tgUser}</strong></p>
+        `;
+        document.getElementById('orderModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('orderModal').classList.remove('active');
+        currentOrder = null;
+    }
+
+    function copyPhone() {
+        const phone = '+79027365759';
+        navigator.clipboard.writeText(phone).then(() => {
+            showToast('✅ Номер скопирован!');
+        }).catch(() => {
+            showToast('❌ Не удалось скопировать', true);
+        });
+    }
+
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toastMessage');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        if (isError) toast.classList.add('error');
+        else toast.classList.remove('error');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function sendOrderToBot() {
+        if (!currentOrder) return;
+        const tgUser = getTelegramIdentifier();
+        if (!tgUser) {
+            showToast('❌ Пожалуйста, укажите ваш Telegram username', true);
+            return;
+        }
+        const orderData = JSON.stringify({
+            user: tgUser,
+            product: currentOrder.name,
+            price: currentOrder.price,
+            type: currentOrder.type,
+            details: currentOrder.details
+        });
+        const encoded = encodeURIComponent(orderData);
+        const botUsername = 'HowScad_bot';
+        const url = `https://t.me/${botUsername}?start=weborder_${encoded}`;
+        window.open(url, '_blank');
+        showToast('📱 Открываем бота, отправьте скриншот чека!');
+        closeModal();
+    }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.dataset.tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('numbers-tab').style.display = 'none';
+            document.getElementById('stars-tab').style.display = 'none';
+            document.getElementById('info-tab').style.display = 'none';
+            if (tabId === 'numbers') document.getElementById('numbers-tab').style.display = 'block';
+            else if (tabId === 'stars') document.getElementById('stars-tab').style.display = 'block';
+            else if (tabId === 'info') document.getElementById('info-tab').style.display = 'block';
+        });
+    });
+
+    document.getElementById('confirmOrderBtn').addEventListener('click', sendOrderToBot);
+
+    renderNumbers();
+    renderStars();
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://telegram.org/js/telegram-widget.js?22';
+    script.setAttribute('data-telegram-login', 'HowScad_bot');
+    script.setAttribute('data-size', 'medium');
+    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+    script.setAttribute('data-request-access', 'write');
+    document.getElementById('telegram-widget').appendChild(script);
+    
+    window.onTelegramAuth = function(user) {
+        window.tgUserData = user;
+        document.getElementById('tgUsername').value = '@' + user.username;
+        showToast(`✅ Здравствуйте, ${user.first_name}!`);
+    };
+
+    window.onclick = (e) => {
+        const modal = document.getElementById('orderModal');
+        if (e.target === modal) closeModal();
+    };
+</script>
+</body>
+  </html>
