@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Order</title>
+</head>
+<body>
+
+<h2>Заказ товара</h2>
+
+<select id="product">
+  <option value="США 80₽">🇺🇸 США — 80₽</option>
+  <option value="Канада 65₽">🇨🇦 Канада — 65₽</option>
+  <option value="Индия 50₽">🇮🇳 Индия — 50₽</option>
+</select>
+
+<br><br>
+
+<input id="username" placeholder="Telegram username">
+
+<br><br>
+
+<button onclick="sendOrder()">Отправить заказ</button>
+
+<script>
+function sendOrder() {
+    const product = document.getElementById("product").value;
+    const username = document.getElementById("username").value.trim();
+
+    if (!username) {
+        alert("Введите username");
+        return;
+    }
+
+    const text =
+        "🛒 Новый заказ%0A" +
+        "👤 User: " + username + "%0A" +
+        "📦 Товар: " + product;
+
+    const telegramLink = "https://t.me/YourUsername?text=" + text;
+
+    window.open(telegramLink, "_blank");
+}
+</script>
+
+</body>
+</html>
